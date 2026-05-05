@@ -1,19 +1,19 @@
 const { setEngine } = require("node:crypto")
 
-type  pizzaType={name:string,price:number}
-type orderType={id:number,pizza:pizzaType,status:string}
+type  pizzaType={id:number,name:string,price:number}
+type orderType={id:number,pizza:pizzaType,status:"Ordered" | "Completed"}
 
 let menu:pizzaType[]= [
-  { name: "Margerita", price: 10 },
-  { name: "Pepperoni", price: 12 },
-  { name: "Hawaiian", price: 11 }
+  { id:1,name: "Margerita", price: 10 },
+  { id:2,name: "Pepperoni", price: 12 },
+  { id:3,name: "Hawaiian", price: 11 }
 ]
 let cashInRegister:number = 100
 let orderQueue:orderType[] = []
 let orderId:number = 1
 
-function addMenuItem({ name, price }) {
-  menu.push({ name, price })
+function addMenuItem({ id,name, price }):void {
+  menu.push({ id,name, price })
 }
 
 function placeOrder(itemName:string) {
@@ -40,7 +40,21 @@ function completeOrder(orderId) {
   return order
 }
 
-addMenuItem({ name: "Veggie", price: 9 })
+function getPizzaByIdentifier(identifier: string | number):pizzaType | undefined{
+  if(typeof identifier ==="string"){
+    return menu.find((menuObj)=>{
+      {menuObj.name.toLowerCase()===identifier.toLowerCase()}
+    })
+  }else if(typeof identifier ==="number"){
+    return menu.find((menuObj)=>{
+    {menuObj.id===identifier}
+  })
+}else{
+    throw new TypeError("Parameter `identifier` be either a number or a string")
+}
+}
+
+addMenuItem({ id:4,name: "Veggie", price: 9 })
 console.log(menu)
 placeOrder("Margerita")
 placeOrder("Pepperoni")

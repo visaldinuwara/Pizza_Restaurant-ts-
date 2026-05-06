@@ -24,7 +24,7 @@ let menu: pizzaType[] = [
   { id: nextPizzaId++, name: "Hawaiian", price: 11 }
 ]
 
-function addMenuItem( pizzaItem): void {
+function addMenuItem( pizzaItem:Omit<pizzaType,"id">): void {
   let id = nextPizzaId++
   let menuItem:pizzaType={id:id,name:pizzaItem.name,price:pizzaItem.price};
   menu.push()
@@ -78,6 +78,16 @@ completeOrder(1)
 console.log(orderQueue)
 console.log(`Cash in register: $${cashInRegister}`)
 
+function addToArray<T>(array:T[],item:T):T[]{
+  array.push(item)
+  return array
+}
+
+addToArray<pizzaType>(menu,{id:nextPizzaId++,name:"Pasta",price:10})
+addToArray<orderType>(orderQueue,{id:orderId++,pizza:{id:nextPizzaId++,name:"Pasta",price:10},status:"Ordered"})
+
+console.log(menu)
+console.log(orderQueue)
 
 
 
